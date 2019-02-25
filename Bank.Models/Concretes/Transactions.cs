@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BankApp.Model
+namespace Bank.Models
 { 
     public class Transactions : IDisposable
     {
