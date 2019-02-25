@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BankApp.Model
+namespace Bank.Models
 {
     public class Customers : IDisposable
     {
@@ -8,6 +8,7 @@ namespace BankApp.Model
 	    {
             GC.SuppressFinalize(this);
 	    }
+
 
         public int CustomerID { get; set; }
 

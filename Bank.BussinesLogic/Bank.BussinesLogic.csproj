@@ -47,5 +47,19 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bank.Commons\Bank.Commons.csproj">
+      <Project>{d89d0cee-821c-4540-bf5a-d2c6650d5590}</Project>
+      <Name>Bank.Commons</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bank.DataAccess\Bank.DataAccess.csproj">
+      <Project>{8f19c998-4034-43b0-ae13-e35693fd8f05}</Project>
+      <Name>Bank.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bank.Models\Bank.Models.csproj">
+      <Project>{e9029317-91e1-4efd-9e07-defb6213f6bf}</Project>
+      <Name>Bank.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
