@@ -6,7 +6,7 @@ The Bank App that targets the go through to learn how tos
 Bu uygulama SOA dersi için geliştirilmektedir ve aşağıdaki senaryo üzerinden geliştirilecektir.
 
 ## “SOA” BANKA SENARYOSU
-	Merhabalar HFTTF Yazılım,
+	Merhabalar HFTTF Yazılım,,
 
 	X Bankası olarak sizlerle bankamıza ait İnternet Bankacılığı Uygulamamız’ı geliştirmenizi istemekteyiz ve birazdan belirteceğimiz gereksinimlere uygun olarak sizlerden geliştirme teklifi yapmanızı beklemekteyiz. 
 	
