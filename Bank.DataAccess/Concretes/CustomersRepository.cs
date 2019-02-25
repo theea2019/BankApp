@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using Bank.DataAccess;
 using Bank.DataAccess.Abstractions;
+using Bank.Models.Concretes;
 
 /// <summary>
 /// Summary description for Class1
 /// </summary>
 namespace Bank.DataAccess.Concretes
 {
-    public class CustomersRepository : IRepository<Class1> IDisposable
+    public class CustomersRepository : IRepository<Customers>, IDisposable
     {
         public CustomersRepository()
         {
@@ -24,25 +24,25 @@ namespace Bank.DataAccess.Concretes
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            GC.SuppressFinalize(this);
         }
 
-        public bool Insert(Class1 entity)
+        public bool Insert(Customers entity)
         {
             throw new NotImplementedException();
         }
 
-        public IList<Class1> SelectAll()
+        public IList<Customers> SelectAll()
         {
             throw new NotImplementedException();
         }
 
-        public Class1 SelectedById(int id)
+        public Customers SelectedById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public bool Update(Class1 entity)
+        public bool Update(Customers entity)
         {
             throw new NotImplementedException();
         }
