@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace BankApp.Model
+namespace Bank.Models.Concretes
 { 
     public class Transactions : IDisposable
     {
-	    public Dispose()
+	    public void Dispose()
 	    {
             GC.SuppressFinalize(this);
 	    }

@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace BankApp.Model
+namespace Bank.Models.Concretes
 {
     public class Customers : IDisposable
     {
-	    public Dispose()
+	    public void Dispose()
 	    {
             GC.SuppressFinalize(this);
 	    }
@@ -22,8 +22,6 @@ namespace BankApp.Model
         public byte BalanceType { get; set; }
 
         public bool isActive { get; set; }
-
-
 
     }
 }
