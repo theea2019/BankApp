@@ -46,7 +46,12 @@
     <Compile Include="Concretes\CustomersRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Bank.Models\Bank.Models.csproj">
+      <Project>{e9029317-91e1-4efd-9e07-defb6213f6bf}</Project>
+      <Name>Bank.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
