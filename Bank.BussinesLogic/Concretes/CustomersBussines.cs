@@ -23,7 +23,7 @@ namespace Bank.BussinessLogic
             catch (Exception ex)
             {
                 // TODO: LoggingException
-                throw;
+                throw new Exception("BusinessLogic:CustomerBusiness::InsertCustomer::Error occured.", ex);
             }
         }
 
@@ -41,7 +41,7 @@ namespace Bank.BussinessLogic
             catch (Exception ex)
             {
                 // TODO: LoggingException
-                throw;
+                throw new Exception("BusinessLogic:CustomerBusiness::UpdateCustomer::Error occured.", ex);
             }
         }
 
@@ -59,7 +59,7 @@ namespace Bank.BussinessLogic
             catch (Exception ex)
             {
                 // TODO: LoggingException
-                throw;
+                throw new Exception("BusinessLogic:CustomerBusiness::DeleteCustomer::Error occured.", ex);
             }
         }
         
