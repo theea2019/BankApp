@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Bank.DataAccess.Concretes;
+using Bank.Models.Concretes;
 
 namespace Bank.BussinessLogic
 {
@@ -7,12 +9,12 @@ namespace Bank.BussinessLogic
     {
         // TODO: LoggingHandler
 
-        public bool InsertCustomer(CustomerEntitiy entity)
+        public bool InsertCustomer(Customers entity)
         {
             try
             {
                 bool isSuccess;
-                using (var repo = new CustomerRepository())
+                using (var repo = new CustomersRepository())
                 {
                     isSuccess = repo.Insert(entity);
                 }
@@ -25,12 +27,12 @@ namespace Bank.BussinessLogic
             }
         }
 
-        public bool UpdateCustomer(CustomerEntitiy entity)
+        public bool UpdateCustomer(Customers entity)
         {
             try
             {
                 bool isSuccess;
-                using (var repo = new CustomerRepository())
+                using (var repo = new CustomersRepository())
                 {
                     isSuccess = repo.Update(entity);
                 }
@@ -43,14 +45,14 @@ namespace Bank.BussinessLogic
             }
         }
 
-        public bool DeleteCustomer(CustomerEntitiy entity)
+        public bool DeleteCustomer(Customers entity)
         {
             try
             {
                 bool isSuccess;
-                using (var repo = new CustomerRepository())
+                using (var repo = new CustomersRepository())
                 {
-                    isSuccess = repo.Delete(entity);
+                    isSuccess = repo.DeletedById(entity.CustomerID);
                 }
                 return isSuccess;
             }
@@ -61,14 +63,14 @@ namespace Bank.BussinessLogic
             }
         }
         
-        public CustomerEntitiy SelectCustomerById (int customerId)
+        public Customers SelectCustomerById (int customerId)
         {
             try
             {
-                CustomerEntitiy responseEntitiy;
-                using (var repo = new CustomerRepository())
+                Customers responseEntitiy;
+                using (var repo = new CustomersRepository())
                 {
-                    responseEntitiy = repo.SelectById(customerId);
+                    responseEntitiy = repo.SelectedById(customerId);
                     // TODO: response != null
                 }
                 return responseEntitiy;
@@ -80,13 +82,13 @@ namespace Bank.BussinessLogic
             }
         }
 
-        public List<CustomerEntity> SelectAllCustomers()
+        public List<Customers> SelectAllCustomers()
         {
-            var responseEntities = new List<CustomerEntitiy>();
+            var responseEntities = new List<Customers>();
 
             try
             {
-                using (var repo = new CustomerRepository())
+                using (var repo = new CustomersRepository())
                 {
                     foreach (var entity in repo.SelectAll())
                     {
@@ -108,6 +110,10 @@ namespace Bank.BussinessLogic
         }
 
             //TODO : Dispose
+        public void Dispose()
+        {
+            GC.SuppressFinalize(true);
+        }
     }
 }
 

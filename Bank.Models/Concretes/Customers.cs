@@ -1,14 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace Bank.Models
+namespace Bank.Models.Concretes
 {
     public class Customers : IDisposable
     {
-	    public Dispose()
+	    public void Dispose()
 	    {
             GC.SuppressFinalize(this);
 	    }
 
+        public Customers()
+        {
+            Transactions = new List<Transactions>();
+        }
 
         public int CustomerID { get; set; }
 
@@ -24,7 +29,7 @@ namespace Bank.Models
 
         public bool isActive { get; set; }
 
-
+        public IList<Transactions> Transactions { get; set; }
 
     }
 }

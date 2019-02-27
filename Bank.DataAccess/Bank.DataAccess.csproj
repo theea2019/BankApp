@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,9 +45,14 @@
     <Compile Include="Abstractions\IRepository.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Concretes\CustomersRepository.cs" />
+    <Compile Include="Concretes\TranscationsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bank.Commons\Bank.Commons.csproj">
+      <Project>{d89d0cee-821c-4540-bf5a-d2c6650d5590}</Project>
+      <Name>Bank.Commons</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bank.Models\Bank.Models.csproj">
       <Project>{e9029317-91e1-4efd-9e07-defb6213f6bf}</Project>
       <Name>Bank.Models</Name>

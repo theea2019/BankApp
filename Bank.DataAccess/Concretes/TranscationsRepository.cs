@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Bank.Commons;
 using Bank.DataAccess.Abstractions;
 using Bank.Models.Concretes;
 
-/// <summary>
-/// Summary description for Class1
-/// </summary>
 namespace Bank.DataAccess.Concretes
 {
-    public class CustomersRepository : IRepository<Customers>, IDisposable
+    public class TranscationsRepository : IRepository<Transactions>, IDisposable
     {
         private string _connectionString;
         private string _dbProviderName;
@@ -22,7 +19,7 @@ namespace Bank.DataAccess.Concretes
         private int _rowsAffected, _errorCode;
         private bool _bDisposed;
 
-        public CustomersRepository()
+        public TranscationsRepository()
         {
             _connectionString = DBHelper.GetConnectionString();
             _dbProviderName = DBHelper.GetConnectionProvider();
@@ -33,14 +30,14 @@ namespace Bank.DataAccess.Concretes
         {
             _errorCode = 0;
             _rowsAffected = 0;
-            
+
             try
             {
                 var query = new StringBuilder();
                 query.Append("DELETE ");
-                query.Append("FROM [dbo].[tbl_Customers] ");
+                query.Append("FROM [dbo].[tbl_Transactions] ");
                 query.Append("WHERE ");
-                query.Append("[CustomerID] = @id ");
+                query.Append("[tbl_Transactions] = @id ");
                 query.Append("SELECT @intErrorCode=@@ERROR; ");
 
                 var commandText = query.ToString();
@@ -57,7 +54,7 @@ namespace Bank.DataAccess.Concretes
                     {
                         if (dbCommand == null)
                             throw new ArgumentNullException(
-                                "dbCommand" + " The db SelectById command for entity [tbl_Customers] can't be null. ");
+                                "dbCommand" + " The db SelectById command for entity [tbl_Transactions] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
                         dbCommand.CommandText = commandText;
@@ -77,7 +74,7 @@ namespace Bank.DataAccess.Concretes
 
                         if (_errorCode != 0)
                             throw new Exception(
-                                "Deleting Error for entity [tbl_Customer] reported the Database ErrorCode: " +
+                                "Deleting Error for entity [tbl_Transactions] reported the Database ErrorCode: " +
                                 _errorCode);
                     }
                 }
@@ -88,7 +85,7 @@ namespace Bank.DataAccess.Concretes
             {
                 // TODO - ADD Logging Commons
                 Console.WriteLine(ex.Message);
-                throw new Exception("CustomersRepository::Insert:Error occured.", ex);
+                throw new Exception("TransactionsRepository::Insert:Error occured.", ex);
             }
         }
 
@@ -113,7 +110,7 @@ namespace Bank.DataAccess.Concretes
             }
         }
 
-        public bool Insert(Customers entity)
+        public bool Insert(Transactions entity)
         {
             _rowsAffected = 0;
             _errorCode = 0;
@@ -121,11 +118,11 @@ namespace Bank.DataAccess.Concretes
             try
             {
                 var query = new StringBuilder();
-                query.Append("INSERT [dbo].[tbl_Customers] ");
-                query.Append("( [CustomerName], [CustomerSurname], [CustomerPasskey], [Balance], [BalanceType], [isActive] ) ");
+                query.Append("INSERT [dbo].[tbl_Transactions] ");
+                query.Append("( [TransactionAmount], [TransactorAccountNumber], [RecieverAccountNumber], [TransactionDate], [isSuccess] ) ");
                 query.Append("VALUES ");
                 query.Append(
-                    "( @CustomerName, @CustomerSurname, @CustomerPasskey, @Balance, @BalanceType, @IsActive ) ");
+                    "( @TransactionAmount, @TransactorAccountNumber, @RecieverAccountNumber, @TransactionDate, @isSuccess ) ");
                 query.Append("SELECT @intErrorCode=@@ERROR;");
 
                 var commandText = query.ToString();
@@ -133,7 +130,7 @@ namespace Bank.DataAccess.Concretes
 
                 using (var dbConnection = _dbProviderFactory.CreateConnection())
                 {
-                    if(dbConnection == null)
+                    if (dbConnection == null)
                         throw new ArgumentNullException("dbConnection", "The db connection can't be null.");
 
                     dbConnection.ConnectionString = _connectionString;
@@ -141,18 +138,17 @@ namespace Bank.DataAccess.Concretes
                     using (var dbCommand = _dbProviderFactory.CreateCommand())
                     {
                         if (dbCommand == null)
-                            throw new ArgumentNullException("dbCommand" + " The db Insert command for entity [tbl_Customers] can't be null. ");
+                            throw new ArgumentNullException("dbCommand" + " The db Insert command for entity [tbl_Transactions] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
                         dbCommand.CommandText = commandText;
 
                         //Input Params
-                        DBHelper.AddParameter(dbCommand, "@CustomerName", CsType.String, ParameterDirection.Input, entity.CustomerName);
-                        DBHelper.AddParameter(dbCommand, "@CustomerSurname", CsType.String, ParameterDirection.Input, entity.CustomerSurname);
-                        DBHelper.AddParameter(dbCommand, "@CustomerPasskey", CsType.String, ParameterDirection.Input, entity.CustomerPasskey);
-                        DBHelper.AddParameter(dbCommand, "@Balance", CsType.Decimal, ParameterDirection.Input, entity.Balance);
-                        DBHelper.AddParameter(dbCommand, "@BalanceType", CsType.Byte, ParameterDirection.Input, entity.BalanceType);
-                        DBHelper.AddParameter(dbCommand, "@IsActive", CsType.Boolean, ParameterDirection.Input, entity.isActive);
+                        DBHelper.AddParameter(dbCommand, "@TransactionAmount", CsType.Decimal, ParameterDirection.Input, entity.TransactionAmount);
+                        DBHelper.AddParameter(dbCommand, "@TransactorAccountNumber", CsType.Int, ParameterDirection.Input, entity.TransactorAccountNumber);
+                        DBHelper.AddParameter(dbCommand, "@RecieverAccountNumber", CsType.Int, ParameterDirection.Input, entity.RecieverAccountNumber);
+                        DBHelper.AddParameter(dbCommand, "@TransactionDate", CsType.DateTime, ParameterDirection.Input, entity.TransactionDate);
+                        DBHelper.AddParameter(dbCommand, "@isSuccess", CsType.Boolean, ParameterDirection.Input, entity.isSuccess);
 
                         //Output Params
                         DBHelper.AddParameter(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
@@ -165,8 +161,8 @@ namespace Bank.DataAccess.Concretes
                         _rowsAffected = dbCommand.ExecuteNonQuery();
                         _errorCode = int.Parse(dbCommand.Parameters["@intErrorCode"].Value.ToString());
 
-                        if(_errorCode != 0)
-                            throw new Exception("Inserting Error for entity [tbl_Customer] reported the Database ErrorCode: "+_errorCode);
+                        if (_errorCode != 0)
+                            throw new Exception("Inserting Error for entity [tbl_Transactions] reported the Database ErrorCode: " + _errorCode);
                     }
                 }
                 //Return the results of query/ies
@@ -176,24 +172,24 @@ namespace Bank.DataAccess.Concretes
             {
                 // TODO - ADD Logging Commons
                 Console.WriteLine(ex.Message);
-                throw new Exception("CustomersRepository::Insert:Error occured.", ex);
+                throw new Exception("TransactionsRepository::Insert:Error occured.", ex);
             }
         }
 
-        public IList<Customers> SelectAll()
+        public IList<Transactions> SelectAll()
         {
             _errorCode = 0;
             _rowsAffected = 0;
 
-            IList<Customers> customers = new List<Customers>();
+            IList<Transactions> transactions = new List<Transactions>();
 
             try
             {
                 var query = new StringBuilder();
                 query.Append("SELECT ");
                 query.Append(
-                    "[CustomerID], [CustomerName], [CustomerSurname], [CustomerPasskey], [Balance], [BalanceType], [isActive] ");
-                query.Append("FROM [dbo].[tbl_Customers] ");
+                    "[TransactionID], [TransactionAmount], [TransactorAccountNumber], [RecieverAccountNumber], [TransactionDate], [isSuccess] ");
+                query.Append("FROM [dbo].[tbl_Transactions] ");
                 query.Append("SELECT @intErrorCode=@@ERROR; ");
 
                 var commandText = query.ToString();
@@ -210,7 +206,7 @@ namespace Bank.DataAccess.Concretes
                     {
                         if (dbCommand == null)
                             throw new ArgumentNullException(
-                                "dbCommand" + " The db SelectById command for entity [tbl_Customers] can't be null. ");
+                                "dbCommand" + " The db SelectById command for entity [tbl_Transactions] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
                         dbCommand.CommandText = commandText;
@@ -232,15 +228,14 @@ namespace Bank.DataAccess.Concretes
                             {
                                 while (reader.Read())
                                 {
-                                    var entity = new Customers();
-                                    entity.CustomerID = reader.GetInt32(0);
-                                    entity.CustomerName = reader.GetString(1);
-                                    entity.CustomerSurname = reader.GetString(2);
-                                    entity.CustomerPasskey = reader.GetString(3);
-                                    entity.Balance = reader.GetDecimal(4);
-                                    entity.BalanceType = reader.GetByte(5);
-                                    entity.isActive = reader.GetBoolean(6);
-                                    customers.Add(entity);
+                                    var entity = new Transactions();
+                                    entity.TransactionID = reader.GetInt32(0);
+                                    entity.TransactionAmount = reader.GetDecimal(1);
+                                    entity.TransactorAccountNumber = reader.GetInt32(2);
+                                    entity.RecieverAccountNumber = reader.GetValue(3) == DBNull.Value ? (int?)null: reader.GetInt32(3);
+                                    entity.TransactionDate = reader.GetDateTime(4);
+                                    entity.isSuccess = reader.GetBoolean(5);
+                                    transactions.Add(entity);
                                 }
                             }
 
@@ -251,38 +246,38 @@ namespace Bank.DataAccess.Concretes
                         if (_errorCode != 0)
                         {
                             // Throw error.
-                            throw new Exception("Selecting All Error for entity [tbl_Customer] reported the Database ErrorCode: " + _errorCode);
+                            throw new Exception("Selecting All Error for entity [tbl_Transactions] reported the Database ErrorCode: " + _errorCode);
 
                         }
                     }
                 }
                 // Return list
-                return customers;
+                return transactions;
             }
             catch (Exception ex)
             {
                 // TODO - ADD Logging Commons
                 Console.WriteLine(ex.Message);
-                throw new Exception("CustomersRepository::SelectAll:Error occured.", ex);
+                throw new Exception("TransactionsRepository::SelectAll:Error occured.", ex);
             }
         }
 
-        public Customers SelectedById(int id)
+        public Transactions SelectedById(int id)
         {
             _errorCode = 0;
             _rowsAffected = 0;
 
-            Customers customer = null;
+            Transactions transaction = null;
 
             try
             {
                 var query = new StringBuilder();
                 query.Append("SELECT ");
                 query.Append(
-                    "[CustomerID], [CustomerName], [CustomerSurname], [CustomerPasskey], [Balance], [BalanceType], [isActive] ");
-                query.Append("FROM [dbo].[tbl_Customers] ");
+                    "[TransactionID], [TransactionAmount], [TransactorAccountNumber], [RecieverAccountNumber], [TransactionDate], [isSuccess] ");
+                query.Append("FROM [dbo].[tbl_Transactions] ");
                 query.Append("WHERE ");
-                query.Append("[CustomerID] = @id ");
+                query.Append("[TransactorAccountNumber] = @id ");
                 query.Append("SELECT @intErrorCode=@@ERROR; ");
 
                 var commandText = query.ToString();
@@ -299,7 +294,7 @@ namespace Bank.DataAccess.Concretes
                     {
                         if (dbCommand == null)
                             throw new ArgumentNullException(
-                                "dbCommand" + " The db SelectById command for entity [tbl_Customers] can't be null. ");
+                                "dbCommand" + " The db SelectById command for entity [tbl_Transactions] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
                         dbCommand.CommandText = commandText;
@@ -321,15 +316,14 @@ namespace Bank.DataAccess.Concretes
                             {
                                 while (reader.Read())
                                 {
-                                    var entity = new Customers();
-                                    entity.CustomerID = reader.GetInt32(0);
-                                    entity.CustomerName = reader.GetString(1);
-                                    entity.CustomerSurname = reader.GetString(2);
-                                    entity.CustomerPasskey = reader.GetString(3);
-                                    entity.Balance = reader.GetDecimal(4);
-                                    entity.BalanceType = reader.GetByte(5);
-                                    entity.isActive = reader.GetBoolean(6);
-                                    customer = entity;
+                                    var entity = new Transactions();
+                                    entity.TransactionID = reader.GetInt32(0);
+                                    entity.TransactionAmount = reader.GetDecimal(1);
+                                    entity.TransactorAccountNumber = reader.GetInt32(2);
+                                    entity.RecieverAccountNumber = reader.GetInt32(3);
+                                    entity.TransactionDate = reader.GetDateTime(4);
+                                    entity.isSuccess = reader.GetBoolean(6);
+                                    transaction = entity;
                                     break;
                                 }
                             }
@@ -340,23 +334,22 @@ namespace Bank.DataAccess.Concretes
                         if (_errorCode != 0)
                         {
                             // Throw error.
-                            throw new Exception("Selecting Error for entity [tbl_Customer] reported the Database ErrorCode: " + _errorCode);
+                            throw new Exception("Selecting Error for entity [tbl_Transactions] reported the Database ErrorCode: " + _errorCode);
                         }
                     }
                 }
 
-                customer.Transactions = new TranscationsRepository().SelectAll().Where(x=>x.TransactorAccountNumber.Equals(customer.CustomerID) || x.RecieverAccountNumber.Equals(customer.CustomerID)).ToList();
-                return customer;
+                return transaction;
             }
             catch (Exception ex)
             {
                 // TODO - ADD Logging Commons
                 Console.WriteLine(ex.Message);
-                throw new Exception("CustomersRepository::SelectById:Error occured.", ex);
+                throw new Exception("TransactionsRepository::SelectById:Error occured.", ex);
             }
         }
 
-        public bool Update(Customers entity)
+        public bool Update(Transactions entity)
         {
             _rowsAffected = 0;
             _errorCode = 0;
@@ -364,10 +357,10 @@ namespace Bank.DataAccess.Concretes
             try
             {
                 var query = new StringBuilder();
-                query.Append("INSERT [dbo].[tbl_Customers] ");
-                query.Append("( [CustomerName] = @CustomerName, [CustomerSurname] = @CustomerSurname, [CustomerPasskey] =  @CustomerPasskey, [Balance] = @Balance, [BalanceType] = @BalanceType, [isActive] = @IsActive ) ");
+                query.Append("INSERT [dbo].[tbl_Transactions] ");
+                query.Append("( [TransactionAmount] = @TransactionAmount, [TransactorAccountNumber] = @TransactorAccountNumber, [RecieverAccountNumber] =  @RecieverAccountNumber, [TransactionDate] = @TransactionDate, [isSuccess] = @isSuccess ) ");
                 query.Append("WHERE ");
-                query.Append("[CustomersId] = @id");
+                query.Append("[TransactorAccountNumber] = @id");
                 query.Append("SELECT @intErrorCode=@@ERROR;");
 
                 var commandText = query.ToString();
@@ -383,18 +376,17 @@ namespace Bank.DataAccess.Concretes
                     using (var dbCommand = _dbProviderFactory.CreateCommand())
                     {
                         if (dbCommand == null)
-                            throw new ArgumentNullException("dbCommand" + " The db Insert command for entity [tbl_Customers] can't be null. ");
+                            throw new ArgumentNullException("dbCommand" + " The db Insert command for entity [tbl_Transactions] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
                         dbCommand.CommandText = commandText;
 
                         //Input Params
-                        DBHelper.AddParameter(dbCommand, "@CustomerName", CsType.String, ParameterDirection.Input, entity.CustomerName);
-                        DBHelper.AddParameter(dbCommand, "@CustomerSurname", CsType.String, ParameterDirection.Input, entity.CustomerSurname);
-                        DBHelper.AddParameter(dbCommand, "@CustomerPasskey", CsType.String, ParameterDirection.Input, entity.CustomerPasskey);
-                        DBHelper.AddParameter(dbCommand, "@Balance", CsType.Decimal, ParameterDirection.Input, entity.Balance);
-                        DBHelper.AddParameter(dbCommand, "@BalanceType", CsType.Byte, ParameterDirection.Input, entity.BalanceType);
-                        DBHelper.AddParameter(dbCommand, "@IsActive", CsType.Boolean, ParameterDirection.Input, entity.isActive);
+                        DBHelper.AddParameter(dbCommand, "@TransactionAmount", CsType.Decimal, ParameterDirection.Input, entity.TransactionAmount);
+                        DBHelper.AddParameter(dbCommand, "@TransactorAccountNumber", CsType.Int, ParameterDirection.Input, entity.TransactorAccountNumber);
+                        DBHelper.AddParameter(dbCommand, "@RecieverAccountNumber", CsType.Int, ParameterDirection.Input, entity.RecieverAccountNumber);
+                        DBHelper.AddParameter(dbCommand, "@TransactionDate", CsType.DateTime, ParameterDirection.Input, entity.TransactionDate);
+                        DBHelper.AddParameter(dbCommand, "@isSuccess", CsType.Boolean, ParameterDirection.Input, entity.isSuccess);
 
                         //Output Params
                         DBHelper.AddParameter(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
@@ -408,7 +400,7 @@ namespace Bank.DataAccess.Concretes
                         _errorCode = int.Parse(dbCommand.Parameters["@intErrorCode"].Value.ToString());
 
                         if (_errorCode != 0)
-                            throw new Exception("Updating Error for entity [tbl_Customer] reported the Database ErrorCode: " + _errorCode);
+                            throw new Exception("Updating Error for entity [tbl_Transactions] reported the Database ErrorCode: " + _errorCode);
                     }
                 }
                 //Return the results of query/ies
@@ -418,7 +410,7 @@ namespace Bank.DataAccess.Concretes
             {
                 // TODO - ADD Logging Commons
                 Console.WriteLine(ex.Message);
-                throw new Exception("CustomersRepository::Update:Error occured.", ex);
+                throw new Exception("TransactionsRepository::Update:Error occured.", ex);
             }
         }
     }
