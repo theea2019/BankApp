@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using Bank.BussinesLogic;
+using Bank.BusinessLogic;
 using Bank.DataAccess.Concretes;
 using Bank.Models.Concretes;
 
 
 namespace Bank.BussinesLogic
 {
-    public class TransactionBussines : IDisposable
+    public class TransactionBusiness : IDisposable
     {
-        private CustomersBussines _customerbussiness = new CustomersBussines();
+        private CustomersBusiness _customerbusiness = new CustomersBusiness();
         private bool _bDisposed;
         private readonly object _lock = new object();
 
@@ -66,10 +66,10 @@ namespace Bank.BussinesLogic
                         reciever.Balance += transaction.TransactionAmount;
 
                     lock (_lock)
-                        _customerbussiness.UpdateCustomer(sender);
+                        _customerbusiness.UpdateCustomer(sender);
 
                     lock (_lock)
-                        _customerbussiness.UpdateCustomer(reciever);
+                        _customerbusiness.UpdateCustomer(reciever);
                     
                     isSuccess = InsertTransaction(transaction);
                 }
@@ -96,7 +96,7 @@ namespace Bank.BussinesLogic
                         customer.Balance -= transaction.TransactionAmount;
 
                     lock (_lock)
-                        _customerbussiness.UpdateCustomer(customer);
+                        _customerbusiness.UpdateCustomer(customer);
                     
                     isSuccess = InsertTransaction(transaction);
                 }
@@ -125,16 +125,16 @@ namespace Bank.BussinesLogic
                 if (bDisposing)
                 {
                     // Clean the resources used.
-                    _customerbussiness = null;
+                    _customerbusiness = null;
                 }
 
                 _bDisposed = true;
             }
         }
 
-        public TransactionBussines()
+        public TransactionBusiness()
         {
-            _customerbussiness = new CustomersBussines();
+            _customerbusiness = new CustomersBusiness();
         }
     }
 }
