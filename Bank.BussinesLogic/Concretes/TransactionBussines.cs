@@ -28,6 +28,28 @@ namespace Bank.BussinessLogic
             }
         }
 
+        public List<Transactions> SelectAllTransactions()
+        {
+            var responseEntities = new List<Transactions>();
+
+            try
+            {
+                using (var repo = new TranscationsRepository())
+                {
+                    foreach (var entity in repo.SelectAll())
+                    {
+                        responseEntities.Add(entity);
+                    }
+                }
+                return responseEntities;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public bool MakeTransaction(Transactions transaction, Customers sender, Customers reciever)
         {
             try
