@@ -364,11 +364,11 @@ namespace Bank.DataAccess.Concretes
             try
             {
                 var query = new StringBuilder();
-                query.Append("INSERT [dbo].[tbl_Customers] ");
-                query.Append("( [CustomerName] = @CustomerName, [CustomerSurname] = @CustomerSurname, [CustomerPasskey] =  @CustomerPasskey, [Balance] = @Balance, [BalanceType] = @BalanceType, [isActive] = @IsActive ) ");
-                query.Append("WHERE ");
-                query.Append("[CustomersId] = @id");
-                query.Append("SELECT @intErrorCode=@@ERROR;");
+                query.Append(" UPDATE [dbo].[tbl_Customers] ");
+                query.Append(" SET [CustomerName] = @CustomerName, [CustomerSurname] = @CustomerSurname, [CustomerPasskey] =  @CustomerPasskey, [Balance] = @Balance, [BalanceType] = @BalanceType, [isActive] = @IsActive ");
+                query.Append(" WHERE ");
+                query.Append(" [CustomerID] = @CustomerID ");
+                query.Append(" SELECT @intErrorCode = @@ERROR; ");
 
                 var commandText = query.ToString();
                 query.Clear();
@@ -389,6 +389,7 @@ namespace Bank.DataAccess.Concretes
                         dbCommand.CommandText = commandText;
 
                         //Input Params
+                        DBHelper.AddParameter(dbCommand, "@CustomerID", CsType.String, ParameterDirection.Input, entity.CustomerID);
                         DBHelper.AddParameter(dbCommand, "@CustomerName", CsType.String, ParameterDirection.Input, entity.CustomerName);
                         DBHelper.AddParameter(dbCommand, "@CustomerSurname", CsType.String, ParameterDirection.Input, entity.CustomerSurname);
                         DBHelper.AddParameter(dbCommand, "@CustomerPasskey", CsType.String, ParameterDirection.Input, entity.CustomerPasskey);
