@@ -6,7 +6,7 @@ using Bank.Models.Concretes;
 
 namespace Bank.BussinessLogic
 {
-    public class TransactionBussines
+    public class TransactionBussines : IDisposable
     {
         private readonly CustomersBussiness customerbussiness = new CustomersBussiness();
         private readonly object _lock = new object();
@@ -86,7 +86,12 @@ namespace Bank.BussinessLogic
                 throw new Exception("BusinessLogic:TransactionBusiness::WithdrawMoney::Error occured.", ex);
             }
         }
-        
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(true);
+        }
+
         public TransactionBussines()
         {
             // TODO
