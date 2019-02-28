@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using Bank.BussinesLogic;
 using Bank.DataAccess.Concretes;
 using Bank.Models.Concretes;
 
 
-namespace Bank.BussinessLogic
+namespace Bank.BussinesLogic
 {
     public class TransactionBussines : IDisposable
     {
-        private readonly CustomersBussiness customerbussiness = new CustomersBussiness();
+        private CustomersBussines _customerbussiness = new CustomersBussines();
+        private bool _bDisposed;
         private readonly object _lock = new object();
 
         public bool InsertTransaction(Transactions entity)
@@ -64,10 +66,10 @@ namespace Bank.BussinessLogic
                         reciever.Balance += transaction.TransactionAmount;
 
                     lock (_lock)
-                        customerbussiness.UpdateCustomer(sender);
+                        _customerbussiness.UpdateCustomer(sender);
 
                     lock (_lock)
-                        customerbussiness.UpdateCustomer(reciever);
+                        _customerbussiness.UpdateCustomer(reciever);
                     
                     isSuccess = InsertTransaction(transaction);
                 }
@@ -94,7 +96,7 @@ namespace Bank.BussinessLogic
                         customer.Balance -= transaction.TransactionAmount;
 
                     lock (_lock)
-                        customerbussiness.UpdateCustomer(customer);
+                        _customerbussiness.UpdateCustomer(customer);
                     
                     isSuccess = InsertTransaction(transaction);
                 }
@@ -111,12 +113,28 @@ namespace Bank.BussinessLogic
 
         public void Dispose()
         {
+            Dispose(true);
             GC.SuppressFinalize(true);
+        }
+
+        protected virtual void Dispose(bool bDisposing)
+        {
+            // Check the Dispose method called before.
+            if (!_bDisposed)
+            {
+                if (bDisposing)
+                {
+                    // Clean the resources used.
+                    _customerbussiness = null;
+                }
+
+                _bDisposed = true;
+            }
         }
 
         public TransactionBussines()
         {
-            // TODO
+            _customerbussiness = new CustomersBussines();
         }
     }
 }

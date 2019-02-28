@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Bank.DataAccess.Concretes;
 using Bank.Models.Concretes;
 
-namespace Bank.BussinessLogic
+namespace Bank.BussinesLogic
 {
-    public class CustomersBussiness : IDisposable
+    public class CustomersBussines : IDisposable
     {
         // TODO: LoggingHandler
 
@@ -104,7 +104,7 @@ namespace Bank.BussinessLogic
             }
         }
 
-        public CustomersBussiness()
+        public CustomersBussines()
         {
             // TODO : LogHandler inital object.
         }
