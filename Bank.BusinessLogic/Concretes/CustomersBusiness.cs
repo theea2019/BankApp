@@ -45,14 +45,14 @@ namespace Bank.BusinessLogic
             }
         }
 
-        public bool DeleteCustomer(Customers entity)
+        public bool DeleteCustomerById(int ID)
         {
             try
             {
                 bool isSuccess;
                 using (var repo = new CustomersRepository())
                 {
-                    isSuccess = repo.DeletedById(entity.CustomerID);
+                    isSuccess = repo.DeletedById(ID);
                 }
                 return isSuccess;
             }
