@@ -5,12 +5,13 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
-using Bank.Commons;
+using Bank.Commons.Concretes.Data;
+using Bank.Commons.Concretes.Helpers;
 using Bank.DataAccess.Abstractions;
 using Bank.Models.Concretes;
 
 /// <summary>
-/// Summary description for Class1
+/// Summary description for Customers Repository for DB relations of Customer Entity
 /// </summary>
 namespace Bank.DataAccess.Concretes
 {

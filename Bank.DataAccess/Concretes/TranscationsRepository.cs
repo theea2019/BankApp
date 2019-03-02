@@ -4,8 +4,8 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Bank.Commons;
+using Bank.Commons.Concretes.Data;
+using Bank.Commons.Concretes.Helpers;
 using Bank.DataAccess.Abstractions;
 using Bank.Models.Concretes;
 
