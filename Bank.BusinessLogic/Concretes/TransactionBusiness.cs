@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Bank.BusinessLogic;
 using Bank.DataAccess.Concretes;
 using Bank.Models.Concretes;
 
 
-namespace Bank.BussinesLogic
+namespace Bank.BusinessLogic
 {
     public class TransactionBusiness : IDisposable
     {
