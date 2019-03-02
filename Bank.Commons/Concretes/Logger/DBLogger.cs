@@ -12,7 +12,7 @@ namespace Bank.Commons.Concretes.Logger
     {
         string connectionString = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
 
-        public override void Log(string message)
+        public override void Log(string message, bool isError)
         {
             lock (lockObj)
             {

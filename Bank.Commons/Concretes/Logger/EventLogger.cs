@@ -11,7 +11,7 @@ namespace Bank.Commons.Concretes.Logger
     internal class EventLogger : LogBase
     {
 
-        public override void Log(string message)
+        public override void Log(string message, bool isError)
         {
             lock (lockObj)
             {

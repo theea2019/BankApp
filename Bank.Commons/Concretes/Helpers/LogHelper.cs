@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,25 +11,29 @@ namespace Bank.Commons.Concretes.Helpers
 {
     public static class LogHelper
     {
-        private static LogBase logger = null;
-        public static void Log(LogTarget target, string message)
+        private static LogBase _logger = null;
+        private static bool _enableLogging = bool.Parse(ConfigurationManager.AppSettings["EnableLogging"]);
+        public static void Log(LogTarget target, string message, bool isError = false)
         {
-            switch (target)
+            if (_enableLogging)
             {
-                case LogTarget.File:
-                    logger = new FileLogger();
-                    logger.Log(message);
-                    break;
-                case LogTarget.Database:
-                    logger = new DBLogger();
-                    logger.Log(message);
-                    break;
-                case LogTarget.EventLog:
-                    logger = new EventLogger();
-                    logger.Log(message);
-                    break;
-                default:
-                    return;
+                switch (target)
+                {
+                    case LogTarget.File:
+                        _logger = new FileLogger();
+                        _logger.Log(message, isError);
+                        break;
+                    case LogTarget.Database:
+                        _logger = new DBLogger();
+                        _logger.Log(message, isError);
+                        break;
+                    case LogTarget.EventLog:
+                        _logger = new EventLogger();
+                        _logger.Log(message, isError);
+                        break;
+                    default:
+                        return;
+                }
             }
         }
     }

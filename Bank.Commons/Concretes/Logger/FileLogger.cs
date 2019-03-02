@@ -2,38 +2,38 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Bank.Commons.Abstractions;
+using Bank.Commons.Concretes.Helpers;
 
 namespace Bank.Commons.Concretes.Logger
 {
     internal class FileLogger : LogBase
     {
         private string _filePath;
-        private bool _enableLogging;
         
-        public override void Log(string message)
+        public override void Log(string message, bool isError)
         {
-            if (_enableLogging)
+            Guid guid = Guid.NewGuid();
+            if (isError)
             {
                 lock (lockObj)
                 {
-                    // TODO - Optimise and iterate the writing solution
-                    using (StreamWriter streamWriter = new StreamWriter(_filePath))
-                    {
-                        streamWriter.WriteLine(message);
-                        streamWriter.Close();
-                    }
+                    FileHelper.WriteFile(_filePath, guid.ToString()+"-"+DateTime.Now.ToString("yyyy.MM.dd.hh.mm.ss.") + "Error.txt", message);
                 }
             }
+            else
+            {
+                lock (lockObj)
+                {
+                    FileHelper.WriteFile(_filePath, guid.ToString() + "-" + DateTime.Now.ToString("yyyy.MM.dd.hh.mm.ss.") + "Log.txt", message);
+                }
+            }
+
         }
 
         public FileLogger()
         {
             _filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["LoggingPath"]).ToString();
-            _enableLogging = bool.Parse(ConfigurationManager.AppSettings["EnableLogging"].ToLower());
         }
     }
 }
