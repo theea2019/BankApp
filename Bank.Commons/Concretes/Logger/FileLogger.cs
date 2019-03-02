@@ -10,7 +10,7 @@ namespace Bank.Commons.Concretes.Logger
     internal class FileLogger : LogBase
     {
         private string _filePath;
-
+        
         public override void Log(string message, bool isError)
         {
             Guid guid = Guid.NewGuid();
@@ -18,7 +18,7 @@ namespace Bank.Commons.Concretes.Logger
             {
                 lock (lockObj)
                 {
-                    FileHelper.WriteFile(_filePath, guid.ToString() + "-" + DateTime.Now.ToString("yyyy.MM.dd.hh.mm.ss.") + "Error.txt", message);
+                    FileHelper.WriteFile(_filePath, guid.ToString()+"-"+DateTime.Now.ToString("yyyy.MM.dd.hh.mm.ss.") + "Error.txt", message);
                 }
             }
             else

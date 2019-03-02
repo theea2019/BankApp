@@ -1,8 +1,12 @@
 ﻿using System;
+using System.CodeDom;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
-using Bank.Commons.Concretes.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Bank.Commons
 {
