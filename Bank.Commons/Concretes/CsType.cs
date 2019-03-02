@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bank.Commons.Concretes.Data
+namespace Bank.Commons
 {
     public enum CsType
     {

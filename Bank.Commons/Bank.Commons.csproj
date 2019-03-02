@@ -42,20 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstractions\LogBase.cs" />
-    <Compile Include="Concretes\Data\CsType.cs" />
-    <Compile Include="Concretes\Helpers\DBHelper.cs" />
-    <Compile Include="Concretes\Helpers\ExceptionHelper.cs" />
-    <Compile Include="Concretes\Helpers\LogHelper.cs" />
-    <Compile Include="Concretes\Logger\DBLogger.cs" />
-    <Compile Include="Concretes\Logger\EventLogger.cs" />
-    <Compile Include="Concretes\Logger\FileLogger.cs" />
-    <Compile Include="Concretes\Logger\LogTarget.cs" />
+    <Compile Include="Concretes\CsType.cs" />
+    <Compile Include="Concretes\DBHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Abstractions\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
