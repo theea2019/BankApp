@@ -43,8 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstractions\LogBase.cs" />
-    <Compile Include="Concretes\CsType.cs" />
-    <Compile Include="Concretes\DBHelper.cs" />
+    <Compile Include="Concretes\Data\CsType.cs" />
+    <Compile Include="Concretes\Helpers\DBHelper.cs" />
+    <Compile Include="Concretes\Helpers\ExceptionHelper.cs" />
     <Compile Include="Concretes\Helpers\FileHelper.cs" />
     <Compile Include="Concretes\Helpers\LogHelper.cs" />
     <Compile Include="Concretes\Logger\DBLogger.cs" />
