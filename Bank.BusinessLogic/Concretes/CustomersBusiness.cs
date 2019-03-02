@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Bank.Commons.Concretes.Helpers;
+using Bank.Commons.Concretes.Logger;
 using Bank.DataAccess.Concretes;
 using Bank.Models.Concretes;
 
@@ -7,8 +9,6 @@ namespace Bank.BusinessLogic
 {
     public class CustomersBusiness : IDisposable
     {
-        // TODO: LoggingHandler
-
         public bool InsertCustomer(Customers entity)
         {
             try
@@ -22,7 +22,7 @@ namespace Bank.BusinessLogic
             }
             catch (Exception ex)
             {
-                // TODO: LoggingException
+                LogHelper.Log(LogTarget.File, ExceptionHelper.ExceptionToString(ex), true);
                 throw new Exception("BusinessLogic:CustomerBusiness::InsertCustomer::Error occured.", ex);
             }
         }
@@ -40,7 +40,7 @@ namespace Bank.BusinessLogic
             }
             catch (Exception ex)
             {
-                // TODO: LoggingException
+                LogHelper.Log(LogTarget.File, ExceptionHelper.ExceptionToString(ex), true);
                 throw new Exception("BusinessLogic:CustomerBusiness::UpdateCustomer::Error occured.", ex);
             }
         }
@@ -58,7 +58,7 @@ namespace Bank.BusinessLogic
             }
             catch (Exception ex)
             {
-                // TODO: LoggingException
+                LogHelper.Log(LogTarget.File, ExceptionHelper.ExceptionToString(ex), true);
                 throw new Exception("BusinessLogic:CustomerBusiness::DeleteCustomer::Error occured.", ex);
             }
         }
@@ -71,14 +71,15 @@ namespace Bank.BusinessLogic
                 using (var repo = new CustomersRepository())
                 {
                     responseEntitiy = repo.SelectedById(customerId);
-                    // TODO: response != null
+                    if (responseEntitiy == null)
+                        throw new NullReferenceException("Customer doesnt exists!");
                 }
                 return responseEntitiy;
             }
             catch (Exception ex)
             {
-                // Log Error
-                throw;
+                LogHelper.Log(LogTarget.File, ExceptionHelper.ExceptionToString(ex), true);
+                throw new Exception("BusinessLogic:CustomerBusiness::SelectCustomerById::Error occured.", ex);
             }
         }
 
@@ -99,17 +100,16 @@ namespace Bank.BusinessLogic
             }
             catch (Exception ex)
             {
-                // Log Error
-                throw;
+                LogHelper.Log(LogTarget.File, ExceptionHelper.ExceptionToString(ex), true);
+                throw new Exception("BusinessLogic:CustomerBusiness::SelectAllCustomers::Error occured.", ex);
             }
         }
 
         public CustomersBusiness()
         {
-            // TODO : LogHandler inital object.
+            //Auto-generated Code   
         }
 
-            //TODO : Dispose
         public void Dispose()
         {
             GC.SuppressFinalize(true);

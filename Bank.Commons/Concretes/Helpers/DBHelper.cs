@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.Common;
 using Bank.Commons.Concretes.Data;
+using Bank.Commons.Concretes.Logger;
 
 namespace Bank.Commons.Concretes.Helpers
 {
@@ -35,6 +36,7 @@ namespace Bank.Commons.Concretes.Helpers
             }
             catch (Exception ex)
             {
+                LogHelper.Log(LogTarget.File,ExceptionHelper.ExceptionToString(ex),true);
                 throw new Exception("DBHelper::AddParameter::Error occured.", ex);
             }
         }

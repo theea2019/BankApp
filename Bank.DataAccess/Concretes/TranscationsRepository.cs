@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using Bank.Commons.Concretes.Data;
 using Bank.Commons.Concretes.Helpers;
+using Bank.Commons.Concretes.Logger;
 using Bank.DataAccess.Abstractions;
 using Bank.Models.Concretes;
 
@@ -83,8 +84,7 @@ namespace Bank.DataAccess.Concretes
             }
             catch (Exception ex)
             {
-                // TODO - ADD Logging Commons
-                Console.WriteLine(ex.Message);
+                LogHelper.Log(LogTarget.File, ExceptionHelper.ExceptionToString(ex), true);
                 throw new Exception("TransactionsRepository::Insert:Error occured.", ex);
             }
         }
@@ -170,8 +170,7 @@ namespace Bank.DataAccess.Concretes
             }
             catch (Exception ex)
             {
-                // TODO - ADD Logging Commons
-                Console.WriteLine(ex.Message);
+                LogHelper.Log(LogTarget.File, ExceptionHelper.ExceptionToString(ex), true);
                 throw new Exception("TransactionsRepository::Insert:Error occured.", ex);
             }
         }
@@ -256,8 +255,7 @@ namespace Bank.DataAccess.Concretes
             }
             catch (Exception ex)
             {
-                // TODO - ADD Logging Commons
-                Console.WriteLine(ex.Message);
+                LogHelper.Log(LogTarget.File, ExceptionHelper.ExceptionToString(ex), true);
                 throw new Exception("TransactionsRepository::SelectAll:Error occured.", ex);
             }
         }
@@ -343,8 +341,7 @@ namespace Bank.DataAccess.Concretes
             }
             catch (Exception ex)
             {
-                // TODO - ADD Logging Commons
-                Console.WriteLine(ex.Message);
+                LogHelper.Log(LogTarget.File, ExceptionHelper.ExceptionToString(ex), true);
                 throw new Exception("TransactionsRepository::SelectById:Error occured.", ex);
             }
         }
@@ -408,8 +405,7 @@ namespace Bank.DataAccess.Concretes
             }
             catch (Exception ex)
             {
-                // TODO - ADD Logging Commons
-                Console.WriteLine(ex.Message);
+                LogHelper.Log(LogTarget.File, ExceptionHelper.ExceptionToString(ex), true);
                 throw new Exception("TransactionsRepository::Update:Error occured.", ex);
             }
         }
