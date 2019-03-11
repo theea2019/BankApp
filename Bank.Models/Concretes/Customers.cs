@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Bank.Models.Concretes
 {
+    
     public class Customers : IDisposable
     {
 	    public void Dispose()
@@ -38,7 +39,8 @@ namespace Bank.Models.Concretes
 
         public bool isActive { get; set; }
 
-        public IList<Transactions> Transactions { get; set; }
-
+       
+        public List<Transactions> Transactions { get; set; }
+        
     }
 }
