@@ -2,7 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace Bank.Models.Concretes
-{ 
+{
+    
     public class Transactions : IDisposable
     {
 	    public void Dispose()
