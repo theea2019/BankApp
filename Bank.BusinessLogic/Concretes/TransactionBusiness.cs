@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Bank.DataAccess.Concretes;
 using Bank.Models.Concretes;
 
@@ -11,8 +12,9 @@ namespace Bank.BusinessLogic
         private CustomersBusiness _customerbusiness = new CustomersBusiness();
         private bool _bDisposed;
         private readonly object _lock = new object();
+        private Transactions generalTransaction;
 
-        public bool InsertTransaction(Transactions entity)
+        private bool InsertTransaction(Transactions entity)
         {
             try
             {
@@ -20,6 +22,11 @@ namespace Bank.BusinessLogic
                 using (var repo = new TranscationsRepository())
                 {
                     isSuccess = repo.Insert(entity);
+                    using (var customerRepo = new CustomersRepository())
+                    {
+                        Customers c = customerRepo.SelectedById(entity.TransactorAccountNumber);
+                        generalTransaction = c.Transactions.ElementAt(c.Transactions.Count-1);
+                    }
                 }
                 return isSuccess;
             }
@@ -55,7 +62,8 @@ namespace Bank.BusinessLogic
         {
             try
             {
-                bool isSuccess;
+                bool isSuccess = false;
+                transaction.isSuccess = false;
                 if (sender.Balance > transaction.TransactionAmount)
                 {
                     lock (_lock)
@@ -64,16 +72,21 @@ namespace Bank.BusinessLogic
                     lock (_lock)                    
                         reciever.Balance += transaction.TransactionAmount;
 
-                    lock (_lock)
-                        _customerbusiness.UpdateCustomer(sender);
-
-                    lock (_lock)
-                        _customerbusiness.UpdateCustomer(reciever);
-                    
                     isSuccess = InsertTransaction(transaction);
+                    if (isSuccess != transaction.isSuccess)
+                    {
+                        transaction = generalTransaction;
+                        transaction.isSuccess = isSuccess;
+                        if (UpdateTransactionInfo(transaction))
+                        {
+                            lock (_lock)
+                                _customerbusiness.UpdateCustomer(sender);
+
+                            lock (_lock)
+                                _customerbusiness.UpdateCustomer(reciever);
+                        }
+                    }
                 }
-                else
-                    return false;
 
                 return isSuccess;
             }
@@ -88,19 +101,49 @@ namespace Bank.BusinessLogic
         {
             try
             {
-                bool isSuccess;
+                bool isSuccess = false;
+                transaction.isSuccess = false;
                 if (customer.Balance > transaction.TransactionAmount)
                 {
                     lock (_lock)                    
                         customer.Balance -= transaction.TransactionAmount;
-
-                    lock (_lock)
-                        _customerbusiness.UpdateCustomer(customer);
                     
                     isSuccess = InsertTransaction(transaction);
+                    if (isSuccess != transaction.isSuccess)
+                    {
+                        transaction = generalTransaction;
+                        transaction.isSuccess = isSuccess;
+                        if (UpdateTransactionInfo(transaction))
+                            lock (_lock)
+                                _customerbusiness.UpdateCustomer(customer);
+                    }
                 }
-                else
-                    return false;
+
+                return isSuccess;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("BusinessLogic:TransactionBusiness::WithdrawMoney::Error occured.", ex);
+            }
+        }
+
+        public bool DepositMoney(Transactions transaction, Customers customer)
+        {
+            try
+            {
+                bool isSuccess = false;
+                lock (_lock)
+                    customer.Balance += transaction.TransactionAmount;
+
+                isSuccess = InsertTransaction(transaction);
+                if (isSuccess && isSuccess != transaction.isSuccess)
+                {
+                    transaction = generalTransaction;
+                    transaction.isSuccess = isSuccess;
+                    if (UpdateTransactionInfo(transaction))
+                        lock (_lock)
+                            _customerbusiness.UpdateCustomer(customer);
+                }
 
                 return isSuccess;
             }
@@ -131,10 +174,28 @@ namespace Bank.BusinessLogic
             }
         }
 
+        private bool UpdateTransactionInfo(Transactions transaction)
+        {
+            try
+            {
+                bool isSuccess;
+                using (var repo = new TranscationsRepository())
+                {
+                    isSuccess = repo.Update(transaction);
+                }
+                return isSuccess;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("BusinessLogic:TransactionBusiness::UpdateTransaction::Error occured.", ex);
+            }
+        }
+
         public TransactionBusiness()
         {
             _customerbusiness = new CustomersBusiness();
         }
+
     }
 }
 

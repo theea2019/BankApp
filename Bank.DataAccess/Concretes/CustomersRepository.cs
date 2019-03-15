@@ -344,7 +344,7 @@ namespace Bank.DataAccess.Concretes
                     }
                 }
 
-                customer.Transactions = new TranscationsRepository().SelectAll().Where(x=>x.TransactorAccountNumber.Equals(customer.CustomerID) || x.RecieverAccountNumber.Equals(customer.CustomerID)).ToList();
+                customer.Transactions = new TranscationsRepository().SelectAll().Where(x=>x.TransactorAccountNumber.Equals(customer.CustomerID) || x.ReceiverAccountNumber.Equals(customer.CustomerID)).ToList();
                 return customer;
             }
             catch (Exception ex)

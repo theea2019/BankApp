@@ -25,7 +25,7 @@ namespace Bank.Models.Concretes
         public int TransactorAccountNumber { get; set; }
 
         [Required(ErrorMessage = "You must enter an sender account number.")]
-        public int? RecieverAccountNumber { get; set; }
+        public int? ReceiverAccountNumber { get; set; }
 
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]

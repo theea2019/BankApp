@@ -119,10 +119,10 @@ namespace Bank.DataAccess.Concretes
             {
                 var query = new StringBuilder();
                 query.Append("INSERT [dbo].[tbl_Transactions] ");
-                query.Append("( [TransactionAmount], [TransactorAccountNumber], [RecieverAccountNumber], [TransactionDate], [isSuccess] ) ");
+                query.Append("( [TransactionAmount], [TransactorAccountNumber], [ReceiverAccountNumber], [TransactionDate], [isSuccess] ) ");
                 query.Append("VALUES ");
                 query.Append(
-                    "( @TransactionAmount, @TransactorAccountNumber, @RecieverAccountNumber, @TransactionDate, @isSuccess ) ");
+                    "( @TransactionAmount, @TransactorAccountNumber, @ReceiverAccountNumber, @TransactionDate, @isSuccess ) ");
                 query.Append("SELECT @intErrorCode=@@ERROR;");
 
                 var commandText = query.ToString();
@@ -146,7 +146,7 @@ namespace Bank.DataAccess.Concretes
                         //Input Params
                         DBHelper.AddParameter(dbCommand, "@TransactionAmount", CsType.Decimal, ParameterDirection.Input, entity.TransactionAmount);
                         DBHelper.AddParameter(dbCommand, "@TransactorAccountNumber", CsType.Int, ParameterDirection.Input, entity.TransactorAccountNumber);
-                        DBHelper.AddParameter(dbCommand, "@RecieverAccountNumber", CsType.Int, ParameterDirection.Input, entity.RecieverAccountNumber);
+                        DBHelper.AddParameter(dbCommand, "@ReceiverAccountNumber", CsType.Int, ParameterDirection.Input, entity.ReceiverAccountNumber);
                         DBHelper.AddParameter(dbCommand, "@TransactionDate", CsType.DateTime, ParameterDirection.Input, entity.TransactionDate);
                         DBHelper.AddParameter(dbCommand, "@isSuccess", CsType.Boolean, ParameterDirection.Input, entity.isSuccess);
 
@@ -187,7 +187,7 @@ namespace Bank.DataAccess.Concretes
                 var query = new StringBuilder();
                 query.Append("SELECT ");
                 query.Append(
-                    "[TransactionID], [TransactionAmount], [TransactorAccountNumber], [RecieverAccountNumber], [TransactionDate], [isSuccess] ");
+                    "[TransactionID], [TransactionAmount], [TransactorAccountNumber], [ReceiverAccountNumber], [TransactionDate], [isSuccess] ");
                 query.Append("FROM [dbo].[tbl_Transactions] ");
                 query.Append("SELECT @intErrorCode=@@ERROR; ");
 
@@ -231,7 +231,7 @@ namespace Bank.DataAccess.Concretes
                                     entity.TransactionID = reader.GetInt32(0);
                                     entity.TransactionAmount = reader.GetDecimal(1);
                                     entity.TransactorAccountNumber = reader.GetInt32(2);
-                                    entity.RecieverAccountNumber = reader.GetValue(3) == DBNull.Value ? (int?)null: reader.GetInt32(3);
+                                    entity.ReceiverAccountNumber = reader.GetValue(3) == DBNull.Value ? (int?)null: reader.GetInt32(3);
                                     entity.TransactionDate = reader.GetDateTime(4);
                                     entity.isSuccess = reader.GetBoolean(5);
                                     transactions.Add(entity);
@@ -272,7 +272,7 @@ namespace Bank.DataAccess.Concretes
                 var query = new StringBuilder();
                 query.Append("SELECT ");
                 query.Append(
-                    "[TransactionID], [TransactionAmount], [TransactorAccountNumber], [RecieverAccountNumber], [TransactionDate], [isSuccess] ");
+                    "[TransactionID], [TransactionAmount], [TransactorAccountNumber], [ReceiverAccountNumber], [TransactionDate], [isSuccess] ");
                 query.Append("FROM [dbo].[tbl_Transactions] ");
                 query.Append("WHERE ");
                 query.Append("[TransactorAccountNumber] = @id ");
@@ -318,7 +318,7 @@ namespace Bank.DataAccess.Concretes
                                     entity.TransactionID = reader.GetInt32(0);
                                     entity.TransactionAmount = reader.GetDecimal(1);
                                     entity.TransactorAccountNumber = reader.GetInt32(2);
-                                    entity.RecieverAccountNumber = reader.GetInt32(3);
+                                    entity.ReceiverAccountNumber = reader.GetInt32(3);
                                     entity.TransactionDate = reader.GetDateTime(4);
                                     entity.isSuccess = reader.GetBoolean(6);
                                     transaction = entity;
@@ -354,10 +354,10 @@ namespace Bank.DataAccess.Concretes
             try
             {
                 var query = new StringBuilder();
-                query.Append("INSERT [dbo].[tbl_Transactions] ");
-                query.Append("( [TransactionAmount] = @TransactionAmount, [TransactorAccountNumber] = @TransactorAccountNumber, [RecieverAccountNumber] =  @RecieverAccountNumber, [TransactionDate] = @TransactionDate, [isSuccess] = @isSuccess ) ");
+                query.Append("UPDATE [dbo].[tbl_Transactions] ");
+                query.Append("SET [TransactionAmount] = @TransactionAmount, [TransactorAccountNumber] = @TransactorAccountNumber, [ReceiverAccountNumber] =  @ReceiverAccountNumber, [TransactionDate] = @TransactionDate, [isSuccess] = @isSuccess ");
                 query.Append("WHERE ");
-                query.Append("[TransactorAccountNumber] = @id");
+                query.Append(" [TransactionID] = @TransactionId ");
                 query.Append("SELECT @intErrorCode=@@ERROR;");
 
                 var commandText = query.ToString();
@@ -379,9 +379,10 @@ namespace Bank.DataAccess.Concretes
                         dbCommand.CommandText = commandText;
 
                         //Input Params
+                        DBHelper.AddParameter(dbCommand, "@TransactionID", CsType.Int, ParameterDirection.Input, entity.TransactionID);
                         DBHelper.AddParameter(dbCommand, "@TransactionAmount", CsType.Decimal, ParameterDirection.Input, entity.TransactionAmount);
                         DBHelper.AddParameter(dbCommand, "@TransactorAccountNumber", CsType.Int, ParameterDirection.Input, entity.TransactorAccountNumber);
-                        DBHelper.AddParameter(dbCommand, "@RecieverAccountNumber", CsType.Int, ParameterDirection.Input, entity.RecieverAccountNumber);
+                        DBHelper.AddParameter(dbCommand, "@ReceiverAccountNumber", CsType.Int, ParameterDirection.Input, entity.ReceiverAccountNumber);
                         DBHelper.AddParameter(dbCommand, "@TransactionDate", CsType.DateTime, ParameterDirection.Input, entity.TransactionDate);
                         DBHelper.AddParameter(dbCommand, "@isSuccess", CsType.Boolean, ParameterDirection.Input, entity.isSuccess);
 
