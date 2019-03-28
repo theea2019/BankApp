@@ -7,18 +7,29 @@ using Bank.Commons.Concretes.Logger;
 
 namespace Bank.Commons.Concretes.Helpers
 {
+    /// <summary>
+    ///     <english>
+    ///         This static class helps for Database operations.
+    ///     </english>
+    ///     <turkish>
+    ///         Bu statik sınıf Database işlemleri için yardımcı olmaktadır.
+    ///     </turkish>
+    /// </summary>
     public static class DBHelper
     {
+        // Get connection string from .config file.
         public static string GetConnectionString()
         {
             return ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
         }
 
+        // Get connection provider from .config file.
         public static string GetConnectionProvider()
         {
             return ConfigurationManager.ConnectionStrings["Default"].ProviderName;
         }
 
+        // Add parameters by converting them to the right type for incoming DbCommand object.
         public static void AddParameter(DbCommand command, string paramName, CsType csDataType,
             ParameterDirection direction, object value)
         {
@@ -41,6 +52,7 @@ namespace Bank.Commons.Concretes.Helpers
             }
         }
 
+        // This method converts C# Data Types to DB Types
         private static DbType CSharpDbTypeConverter(CsType csDataType)
         {
             var dbType = DbType.String;

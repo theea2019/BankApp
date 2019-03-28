@@ -7,6 +7,14 @@ using Bank.Models.Concretes;
 
 namespace Bank.BusinessLogic
 {
+    /// <summary>
+    ///     <english>
+    ///         This class opens our gates of Transactions to the real world and evolves our datas to informations and combines them with business rules that developed by customer.
+    ///     </english>
+    ///     <turkish>
+    ///        Bu sınıf verilerimizi bilgiye dönüştürür ve onları müşterinin istediği iş kurallarıyla harmanlayıp Transaction işlemlerini dış dünyaya açtığımız yerdir. 
+    ///     </turkish>
+    /// </summary>
     public class TransactionBusiness : IDisposable
     {
         private CustomersBusiness _customerbusiness = new CustomersBusiness();

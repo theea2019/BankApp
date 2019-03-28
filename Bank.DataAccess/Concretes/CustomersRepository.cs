@@ -12,7 +12,12 @@ using Bank.DataAccess.Abstractions;
 using Bank.Models.Concretes;
 
 /// <summary>
-/// Summary description for Customers Repository for DB relations of Customer Entity
+///     <english>
+///         Customers Repository is a data access class that helps to provide specific informations of Customers table and it maps the informations to a C# Customers object. It makes basic CRUD operations.
+///     </english>
+///     <turkish>
+///         Customers Repository bir veri erişim sınıfıdır ve bizim için databasede bulunan Customers tablosu içindeki verilerin bir C# Customers nesnesine dönüştürülmesinde yardımcı olur. Klasik CRUD işlemlerini gerçekler.
+///     </turkish>
 /// </summary>
 namespace Bank.DataAccess.Concretes
 {

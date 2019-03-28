@@ -3,6 +3,14 @@ using System.Text;
 
 namespace Bank.Commons.Concretes.Helpers
 {
+    /// <summary>
+    ///     <english>
+    ///         This static class helps to create log strings from Exceptions.
+    ///     </english>
+    ///     <turkish>
+    ///         Bu statik sınıf Exception(hata) sonuçlarından loglama ifadeleri oluşturmaya yardımcı olur.
+    ///     </turkish>
+    /// </summary>
     public static class ExceptionHelper
     {
         private const string StrCoreErrorLineSeparator = "--------------------[Core Exception]--------------------";

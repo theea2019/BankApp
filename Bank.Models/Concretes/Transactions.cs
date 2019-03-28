@@ -3,7 +3,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Bank.Models.Concretes
 {
-    
+    /// <summary>
+    ///     <english>
+    ///         Transactions Entity that will share commonly by the layers.
+    ///     </english>
+    ///     <turkish>
+    ///         Transactions varlığı ihtiyaç duyulan tüm katmanlar arasında ortak olarak paylaşılacak işlem modelidir.
+    ///     </turkish>
+    /// </summary>
     public class Transactions : IDisposable
     {
 	    public void Dispose()

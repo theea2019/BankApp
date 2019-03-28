@@ -4,7 +4,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Bank.Models.Concretes
 {
-    
+    /// <summary>
+    ///     <english>
+    ///         Customers Entity that will share commonly by the layers.
+    ///     </english>
+    ///     <turkish>
+    ///         Customers varlığı ihtiyaç duyulan tüm katmanlar arasında ortak olarak paylaşılacak müşteri modelidir.
+    ///     </turkish>
+    /// </summary>
     public class Customers : IDisposable
     {
 	    public void Dispose()

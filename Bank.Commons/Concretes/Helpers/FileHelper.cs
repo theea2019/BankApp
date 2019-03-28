@@ -7,6 +7,14 @@ using System.Threading.Tasks;
 
 namespace Bank.Commons.Concretes.Helpers
 {
+    /// <summary>
+    ///     <english>
+    ///         This static class helps for File operations when logging to a file.
+    ///     </english>
+    ///     <turkish>
+    ///         Bu statik sınıf loglama yapılırken gerekli Dosya (File) işlemleri için yardımcı olur.
+    ///     </turkish>
+    /// </summary>
     public static class FileHelper
     {
         public static void WriteFile(string folderPath, string fileName, string fileText)

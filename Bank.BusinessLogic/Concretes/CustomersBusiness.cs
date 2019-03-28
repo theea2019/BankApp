@@ -7,6 +7,14 @@ using Bank.Models.Concretes;
 
 namespace Bank.BusinessLogic
 {
+    /// <summary>
+    ///     <english>
+    ///         This class opens our gates of Customers to the real world and evolves our datas to informations and combines them with business rules that developed by customer.
+    ///     </english>
+    ///     <turkish>
+    ///        Bu sınıf verilerimizi bilgiye dönüştürür ve onları müşterinin istediği iş kurallarıyla harmanlayıp Customer işlemlerini dış dünyaya açtığımız yerdir. 
+    ///     </turkish>
+    /// </summary>
     public class CustomersBusiness : IDisposable
     {
         public bool InsertCustomer(Customers entity)

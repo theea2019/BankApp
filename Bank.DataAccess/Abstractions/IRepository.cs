@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 
 /// <summary>
-/// This Interface contains common methods implemented by all repositories.
+///     <english>
+///         This is a generic Interface that contains common methods implemented by all repositories.
+///     </english>
+///     <turkish>
+///         Bu jenerik arayüz repository deseninin gerçeklenmesi için tüm varlıkların repository'leri için kalıtılmalı ve gerçeklenmelidir.
+///     </turkish>
 /// </summary>
 namespace Bank.DataAccess.Abstractions
 {

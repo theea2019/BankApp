@@ -12,6 +12,14 @@ using Bank.Models.Concretes;
 
 namespace Bank.DataAccess.Concretes
 {
+    /// <summary>
+    ///     <english>
+    ///         Transactions Repository is a data access class that helps to provide specific informations of Transactions table and it maps the informations to a C# Transactions object. It makes basic CRUD operations.
+    ///     </english>
+    ///     <turkish>
+    ///         Transactions Repository bir veri erişim sınıfıdır ve bizim için databasede bulunan Transactions tablosu içindeki verilerin bir C# Transactions nesnesine dönüştürülmesinde yardımcı olur. Klasik CRUD işlemlerini gerçekler.
+    ///     </turkish>
+    /// </summary>
     public class TranscationsRepository : IRepository<Transactions>, IDisposable
     {
         private string _connectionString;

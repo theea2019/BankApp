@@ -9,6 +9,14 @@ using Bank.Commons.Concretes.Logger;
 
 namespace Bank.Commons.Concretes.Helpers
 {
+    /// <summary>
+    ///     <english>
+    ///         This static class helps for Logging operations.
+    ///     </english>
+    ///     <turkish>
+    ///         Bu statik sınıf Loglama işlemleri için yardımcı olur.
+    ///     </turkish>
+    /// </summary>
     public static class LogHelper
     {
         private static LogBase _logger = null;
