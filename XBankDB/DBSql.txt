@@ -107,7 +107,7 @@ CREATE TABLE [dbo].[tbl_Transactions](
 	[TransactionID] [int] IDENTITY(1,1) NOT NULL,
 	[TransactionAmount] [money] NOT NULL,
 	[TransactorAccountNumber] [int] NOT NULL,
-	[RecieverAccountNumber] [int] NULL,
+	[ReceiverAccountNumber] [int] NULL,
 	[TransactionDate] [datetime] NOT NULL,
 	[isSuccess] [bit] NOT NULL,
  CONSTRAINT [PK_tbl_Transactions] PRIMARY KEY CLUSTERED 
